@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="angularScripts/angular.js"></script>
+    <script src="angularScripts/angular-route.js"></script>
+    <script src="app.js"></script>
+
+</head>
+
+<body ng-app="myApp">
+
+    <div ng-controller="mainController as mainCtrl">
+        First Name: <input ng-model="mainCtrl.firstName" >
+        First Name: <input ng-model="mainCtrl.lastName" >
+
+        <h2>First Name: {{mainCtrl.firstName}}</h2>
+        <h2>Last Name: {{mainCtrl.lastName}}</h2>
+
+        <h2>sum from page 1: {{mainCtrl.sum}}</h2>
+
+        <button ng-click="mainCtrl.reqFromServer()">Send Name with 'Get'</button>
+        <button ng-click="mainCtrl.postData()">Send Name with 'Post'</button>
+        <button ng-click="mainCtrl.sendToSpreadSheet()">send to google spreadsheet</button>
+
+        <br>
+        <!--<button ng-click="mainCtrl.toJsonF()">To Json</button>-->
+
+        <h2>returned ans : {{mainCtrl.serverRes}}</h2>
+
+        <br>
+    </div>
+
+        <h1>Route pages content:</h1>
+        <ng-view></ng-view>
+
+    </div>
+
+
+</body>
+</html>
