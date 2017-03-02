@@ -1,6 +1,8 @@
 /**
  * Created by Hasidi on 02/03/2017.
  */
+
+var a ="test";
 var express = require('express');
 var mysql = require('mysql');
 var DButilsAzure = require('./DButilsAzure');
