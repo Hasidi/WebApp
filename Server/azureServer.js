@@ -1,20 +1,18 @@
 /**
  * Created by Hasidi on 02/03/2017.
  */
-
-var a ="test";
 var express = require('express');
+var bodyParser = require('body-parser');
 var mysql = require('mysql');
 var DButilsAzure = require('./DButilsAzure');
 var app = express();
 var iso8601 = require('iso8601');
-
-var bodyParser = require('body-parser');
 // var Request = require('tedious').Request;
 var TYPES = require('tedious').TYPES;
-
-
 var Connection = require('tedious').Connection;
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+//---------------------------------------------------------------------------------------------------------------------------------
 var config = {
     userName: 'qweasdzxc',
     password: '123QWEasd',
@@ -37,7 +35,21 @@ connection.on('connect', function(err) {
 app.get('/insertAuthors', function (req, res) {
     DButilsAzure.Insert(connection, "authors", "('Netanel', 'Hasidi')", function (insertStatus) {
         if(insertStatus){
-            res.send('success to insert new token thing')
+            res.send('success to insert new token thing');
+            console.log("success to insert new token thing");
+        }
+        else {
+            console.log("Failed to insert new token thing");
+        }
+    });
+});
+//---------------------------------------------------------------------------------------------------------------------------------
+app.post('/insertAuthors', function (req, res) {
+    var fName = req.body.firstName;
+    var lName = req.body.lastName;
+    DButilsAzure.Insert(connection, "authors", "('" + fName + "', '" + lName +"')", function (insertStatus) {
+        if(insertStatus){
+            res.send('success to insert new token thing');
             console.log("success to insert new token thing");
         }
         else {
@@ -47,6 +59,15 @@ app.get('/insertAuthors', function (req, res) {
 });
 //---------------------------------------------------------------------------------------------------------------------------------
 app.get('/getAuthors', function (req, res) {
+    DButilsAzure.Get(connection, "authors", "*", function(result) {
+        res.send(result);
+        console.log("success getting Authors");
+    });
+});
+//---------------------------------------------------------------------------------------------------------------------------------
+app.get('/getAuthors/:id', function (req, res) {
+    // var id = req.param('id');
+    var id = req.param.id;
     DButilsAzure.Get(connection, "authors", "*", function(result) {
         res.send(result);
         console.log("success getting Authors");
