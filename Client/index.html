@@ -1,42 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
     <script src="angularScripts/angular.js"></script>
     <script src="angularScripts/angular-route.js"></script>
     <script src="app.js"></script>
+    <script src="./app/controllers/registerController.js"></script>
+    <script src="app/models/UserModel.js"></script>
+    <script src=app/services/restService.js> </script>
 
+
+    <!--<base href="/">-->
 </head>
 
-<body ng-app="myApp">
-
-    <div ng-controller="mainController as mainCtrl">
-        First Name: <input ng-model="mainCtrl.firstName" >
-        First Name: <input ng-model="mainCtrl.lastName" >
-
-        <h2>First Name: {{mainCtrl.firstName}}</h2>
-        <h2>Last Name: {{mainCtrl.lastName}}</h2>
-
-        <h2>sum from page 1: {{mainCtrl.sum}}</h2>
-
-        <button ng-click="mainCtrl.reqFromServer()">Send Name with 'Get'</button>
-        <button ng-click="mainCtrl.postData()">Send Name with 'Post'</button>
-        <button ng-click="mainCtrl.sendToSpreadSheet()">send to google spreadsheet</button>
-
-        <br>
-        <!--<button ng-click="mainCtrl.toJsonF()">To Json</button>-->
-
-        <h2>returned ans : {{mainCtrl.serverRes}}</h2>
-
-        <br>
-    </div>
-
-        <h1>Route pages content:</h1>
-        <ng-view></ng-view>
-
-    </div>
+<body >
 
 
+<div ng-controller="mainController as mainCtrl">
+    <h1>this is the Main Page</h1>
+
+    <a ng-href="#">Home</a><br>
+    <a ng-href="#/about">About</a><br>
+    <a href="#store">Store</a><br>
+    <a href="#register">Register</a><br>
+    <a href="#login">Login</a><br>
+
+    {{mainCtrl.testVar}}
+</div>
+
+
+<div>
+    <h1>Route pages content:</h1>
+    <ng-view></ng-view>
+</div>
+
+<footer>
+    E-commerce App <br> IP_2017 <br> &copy; Erez, Adir and Netanel <br> BGU
+</footer>
 </body>
 </html>
