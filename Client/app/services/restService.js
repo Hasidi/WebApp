@@ -9,13 +9,25 @@ angular.module('myApp')
 restService.$inject = ['$http'];
 
 function restService ($http) {
-    this.Get = function (url) {
-        return $http.get(url).then(handleSuccess, handleError(error));
+    this.Get = function (url, callback) {
+        return $http.get(url).then(function (res) {
+            var data =  res.data;
+            return callback(data);
+        },
+            handleError('Error get'));
     };
     //--------------------------------------------------------------------------------------------------
     this.Create = function(url, data) {
         var jsonObj = angular.toJson(data);
         return $http.post(url, data).then(handleSuccess, handleError('Error creating'));
+    };
+    //--------------------------------------------------------------------------------------------------
+    this.Post = function(url, data, callback) {
+        return $http.post(url, data).then(function (res) {
+                var data =  res.data;
+                return callback(data);
+            },
+            handleError('Error get'));
     };
     //--------------------------------------------------------------------------------------------------
     this.Update = function(url, data) {
@@ -27,7 +39,8 @@ function restService ($http) {
     };
     //--------------------------------------------------------------------------------------------------
     function handleSuccess(res) {
-        return res.data;
+        var data =  res.data;
+        return data;
     };
     //--------------------------------------------------------------------------------------------------
     function handleError(error) {

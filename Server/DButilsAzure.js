@@ -4,8 +4,24 @@
 
 var Request = require('tedious').Request;
 
-exports.Insert = function(connection, tableName, infoToInsert, insertReturnStatus) {
-    var query = "INSERT into " + tableName +" VALUES " +infoToInsert;
+exports.Insert = function(connection, tableName, objInfoToInsert, insertReturnStatus) {
+    var query = "INSERT into " + tableName +" (";
+    for (key in objInfoToInsert) {
+        if (typeof objInfoToInsert[key] === 'undefined' || objInfoToInsert[key] === null)
+            continue;
+        query += key + ", ";
+    }
+    var x = query.lastIndexOf(',');
+    query = query.substring(0,x);
+    query += ") values (";
+    for (key in objInfoToInsert) {
+        if (typeof objInfoToInsert[key] === 'undefined' || objInfoToInsert[key] === null)
+            continue;
+        query += "'" + objInfoToInsert[key] + "', ";
+    }
+    var x = query.lastIndexOf(',');
+    query = query.substring(0,x);
+    query += ")";
     request = new Request(query, function(err){
         if (err) {
             console.log(err);

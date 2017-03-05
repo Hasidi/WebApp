@@ -3,40 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <script src="angularScripts/angular.js"></script>
-    <script src="angularScripts/angular-route.js"></script>
+    <script type="text/javascript" src="angularScripts/angular.js"></script>
+    <script type="text/javascript" src="angularScripts/angular-route.js"></script>
+
     <script src="app.js"></script>
-    <script src="./app/controllers/registerController.js"></script>
-    <script src="app/models/UserModel.js"></script>
-    <script src=app/services/restService.js> </script>
+    <script type="text/javascript" src="./app/controllers/registerController.js"></script>
+    <script type="text/javascript" src="app/models/UserModel.js"></script>
+    <script type="text/javascript" src="app/services/restService.js"> </script>
+    <script type="text/javascript" src="app/models/UserModel.js"></script>
+    <script type="text/javascript" src="./app/controllers/authorsController.js"></script>
+    <script type="text/javascript" src="app/models/AuthorModel.js"></script>
+    <script src="app/controllers/loginController.js"></script>
+    <!--<link rel="stylesheet" href="assets/css/mainStyle.css">-->
+    <!--<base href="./">-->
 
-
-    <!--<base href="/">-->
 </head>
 
 <body >
 
+<header><h1>E-commerce Site</h1></header>
+<nav>
+    <div ng-controller="mainController as mainCtrl">
+        <div id="toolbar">
+            <ul>
+                <li><a ng-href="#">Home</a></li>
+                <li><a ng-href="#">About</a></li>
+                <li><a ng-href="#store">Store</a></li>
+                <li><a ng-href="#register">Register</a></li>
+                <li><a ng-href="#">Login</a></li>
+                <li><a ng-href="#authors">Authors</a></li>
+                <li class="right"><a ng-href="#cart">Cart</a></li>
 
-<div ng-controller="mainController as mainCtrl">
-    <h1>this is the Main Page</h1>
+            </ul>
 
-    <a ng-href="#">Home</a><br>
-    <a ng-href="#/about">About</a><br>
-    <a href="#store">Store</a><br>
-    <a href="#register">Register</a><br>
-    <a href="#login">Login</a><br>
+            {{testVar}}
+        </div>
+    </div>
+</nav>
 
-    {{mainCtrl.testVar}}
-</div>
+    <div id="contentPage">
+        <!--<h1>Route pages content:</h1>-->
+        <ng-view></ng-view>
+    </div>
 
-
-<div>
-    <h1>Route pages content:</h1>
-    <ng-view></ng-view>
-</div>
-
-<footer>
-    E-commerce App <br> IP_2017 <br> &copy; Erez, Adir and Netanel <br> BGU
-</footer>
+    <br>
+    <br>
+    <footer>
+        E-commerce App <br> IP_2017 <br> &copy; Erez, Adir and Netanel <br> BGU
+    </footer>
 </body>
 </html>

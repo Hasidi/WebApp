@@ -4,30 +4,63 @@
 <div ng-controller="registerController as regCtrl">
     {{regCtrl.registerVar}} <br> <br>
 
-    <form name="form" ng-submit="regCtrl.register()" role="form">
-        <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
-            <label for="username">First name</label>
-            <input type="text" name="firstName" id="firstName" class="form-control" ng-model="regCtrl.user.firstName" required />
-            <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block">First name is required</span>
-        </div>
-        <div class="form-group" ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
-            <label for="username">Last name</label>
-            <input type="text" name="lastName" id="Text1" class="form-control" ng-model="regCtrl.user.lastName" required />
-            <span ng-show="form.lastName.$dirty && form.lastName.$error.required" class="help-block">Last name is required</span>
-        </div>
-        <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
-            <label for="username">Username</label>
-            <input type="text" name="username" id="username" class="form-control" ng-model="regCtrl.user.username" required />
-            <span ng-show="form.username.$dirty && form.username.$error.required" class="help-block">Username is required</span>
-        </div>
-        <div class="form-group" ng-class="{ 'has-error': form.password.$dirty && form.password.$error.required }">
-            <label for="password">Password</label>
-            <input type="password" name="password" id="password" class="form-control" ng-model="regCtrl.user.password" required />
-            <span ng-show="form.password.$dirty && form.password.$error.required" class="help-block">Password is required</span>
-        </div>
+    <form name="regForm" ng-submit="regCtrl.register()" role="form" novalidate>
+        ClientID :
+        <input type="text"
+               name="Id"
+               ng-model="regCtrl.user.Id"
+               class="form-control"
+               placeholder="Your ID"
+               ng-pattern="/^[0-9]{2,9}$/"
+                required>
+        <span ng-show="regForm.Id.$dirty && regForm.Id.$error.required" class="help-block">Field required</span>
+        <span ng-show="regForm.Id.$dirty && regForm.Id.$error.pattern" class="help-block">Must contain only numbers</span>
+        <br>
+        First Name :
+        <input type="text"
+               ng-required="true"
+               name="FirstName"
+               ng-model="regCtrl.user.FirstName"
+               class="form-control"
+               placeholder="Full Name">
+        <span ng-show="regForm.FirstName.$dirty && regForm.FirstName.$error.required" class="help-block">First name is required</span>
+        <br>
+        Last Name :
+        <input type="text"
+               ng-required="true"
+               name="LastName"
+               ng-model="regCtrl.user.LastName"
+               class="form-control"
+               placeholder="Full Name">
+        <span ng-show="regForm.LastName.$dirty && regForm.LastName.$error.required" class="help-block">Last name is required</span>
+        <br>
+        Mail :
+        <input type="email"
+               ng-required="true"
+               name="Email"
+               ng-model="regCtrl.user.Mail"
+               class="form-control"
+               placeholder="Your Email">
+        <span ng-show="regForm.Email.$dirty && regForm.Email.$error.email" class="help-block">Valid email is required</span>
+        <span ng-show="regForm.Email.$dirty && regForm.Email.$error.required" class="help-block">Email is required</span>
+        <br>
+        Password :
+        <input type="password"
+               ng-required="true"
+               name="Password"
+               ng-model="regCtrl.user.Password"
+               ng-minlength="3"
+               ng-maxlength="5"
+               class="form-control"
+               placeholder="Your Password">
+        <span ng-show="regForm.Password.$dirty && (regForm.Password.$error.minlength || regForm.Password.$error.maxlength)" class="help-block">Password must contain between 3 to 5 characters</span>
+        <span ng-show="regForm.Password.$dirty && regForm.Password.$error.required" class="help-block">Password is required</span>
+        <br>
+
         <div class="form-actions">
-            <button type="submit" ng-disabled="form.$invalid" class="btn btn-primary">Register</button>
-            <a href="#" class="btn btn-link">Cancel</a>
+            <button type="submit" ng-disabled="regForm.$invalid" class="btn btn-primary">Register</button>
+            <a href="" class="btn btn-link">Cancel</a>
         </div>
+
     </form>
 </div>

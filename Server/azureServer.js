@@ -12,13 +12,19 @@ var TYPES = require('tedious').TYPES;
 var Connection = require('tedious').Connection;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(function(req, res, next) {
+    res.header('Access-Control-Allow-Origin', "*");
+    res.header('Access-Control-Allow-Methods','GET,PUT,POST,DELETE');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
 //---------------------------------------------------------------------------------------------------------------------------------
 var config = {
     userName: 'qweasdzxc',
     password: '123QWEasd',
     server: 'ip2017server.database.windows.net',
     // When you connect to Azure SQL Database, you need these next options.
-    options: {encrypt: true, database: 'shop'}
+    options: {encrypt: true, database: 'Shop'}
 };
 var connection = new Connection(config);
 connection.on('connect', function(err) {
@@ -32,10 +38,19 @@ connection.on('connect', function(err) {
 
 });
 //---------------------------------------------------------------------------------------------------------------------------------
-app.get('/insertAuthors', function (req, res) {
-    DButilsAzure.Insert(connection, "authors", "('Netanel', 'Hasidi')", function (insertStatus) {
+app.post('/insertClients', function (req, res) {
+    var id = req.body.ClientID;
+    var fname = req.body.FirstName;
+    var lname = req.body.LastName;
+    var add = req.body.Address;
+    var mail = req.body.Mail;
+    var password = req.body.Password;
+    // var objs = [id, fname, lname, add, mail, password];
+    var objs = req.body;
+
+    DButilsAzure.Insert(connection, "Customer", objs, function (insertStatus) {
         if(insertStatus){
-            res.send('success to insert new token thing');
+            res.send(true);
             console.log("success to insert new token thing");
         }
         else {
@@ -55,6 +70,25 @@ app.post('/insertAuthors', function (req, res) {
         else {
             console.log("Failed to insert new token thing");
         }
+    });
+});
+//---------------------------------------------------------------------------------------------------------------------------------
+app.get('/getClient', function (req, res) {
+    var userId = req.param('Id');
+    var userPass = req.param('pass');
+    var found = false;
+    DButilsAzure.Get(connection, "Customer", "*", function(result) {
+        var objs = JSON.parse(result);
+        for (index in objs) {
+            var id = objs[index].Id;
+            var pass = objs[index].Password;
+            if (id == userId && pass == userPass) {
+                found = true;
+                break;
+            }
+        }
+        res.send(found);
+        console.log("success getting Authors");
     });
 });
 //---------------------------------------------------------------------------------------------------------------------------------
