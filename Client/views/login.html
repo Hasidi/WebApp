@@ -10,7 +10,8 @@
                class="form-control"
                placeholder="Your ID"
                ng-pattern="/^[0-9]{2,9}$/"
-               required>
+               required
+                ng-change="loginCtrl.message=''">
         <span ng-show="loginForm.Id.$dirty && loginForm.Id.$error.required" class="help-block">Field required</span>
         <span ng-show="loginForm.Id.$dirty && loginForm.Id.$error.pattern" class="help-block">Must contain only numbers</span>
         <br>
@@ -22,7 +23,8 @@
                ng-minlength="3"
                ng-maxlength="5"
                class="form-control"
-               placeholder="Your Password">
+               placeholder="Your Password"
+               ng-change="loginCtrl.message=''">
         <span ng-show="loginForm.Password.$dirty && (loginForm.Password.$error.minlength || loginForm.Password.$error.maxlength)" class="help-block">Password must contain between 3 to 5 characters</span>
         <span ng-show="loginForm.Password.$dirty && loginForm.Password.$error.required" class="help-block">Password is required</span>
         <br>
@@ -30,7 +32,9 @@
         <div class="form-actions">
             <button type="submit" ng-disabled="regForm.$invalid" class="btn btn-primary">Login</button>
         </div>
+
+        <span> {{loginCtrl.message}}</span>
+
     </form>
 
-    <span ng-show="loginCtrl.loginState"> Login success</span>
 </div>
