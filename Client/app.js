@@ -3,38 +3,39 @@
  */
 var app = angular.module("myApp",['ngRoute', 'ngCookies']);
 
-app.controller("mainController", [ '$rootScope','$scope', '$cookies', function($rootScope, $scope, $cookies, cookiesHandler) {
-
-    var date = new Date();
-    var x = date.getDay();
-    var y = date.getDate();
-
-    $rootScope.path = "http://localhost:4000/";
-    $scope.testVar = 4;
-    $scope.user = {login: false, name: "", lastVisit: ""};
-    var userName = $cookies.get('Ecom-name');
-    if (userName) {
-        $scope.user.login = true;
-        $scope.user.name = userName;
-        var fullTime = $cookies.get('Ecom-lastVisit');
-        $scope.user.lastVisit = fullTime.substring(0, fullTime.indexOf('G'));
-        // var today = new Date();
-        // var expireDate = new Date();
-        // expireDate.setDate(expireDate.getDate() + 1);
-        // $cookies.put('Ecom-lastVisit', today, {expires : expireDate});
-
-        var today = cookiesHandler.setNewLoginDate();
+app.controller("mainController", [ '$rootScope', '$cookies', '$route', '$window','cookiesHandler',
+    function($rootScope, $cookies, $route, $window, cookiesHandler) {
+        var vm = this;
+        $rootScope.path = "http://localhost:4000/";
+        vm.user = {login: false, name: "", lastVisit: ""};
+        $window.location.href = '#/home';
 
 
-    }
+        vm.logout = function () {
+            cookiesHandler.remove();
+            vm.user = {login: false, name: "", lastVisit: ""};
+            alert("You have looged out");
+        }
 
-    $scope.logout = function () {
-        $cookies.remove('Ecom-name');
-        $cookies.remove('Ecom-id');
-        $cookies.remove('Ecom-lastVisit');
-        $scope.user = {login: false, name: "", lastVisit: ""};
-        alert("You have looged out");
-    }
+
+
+        $rootScope.$on("$routeChangeSuccess", function ( e, current, pre) {
+            var userName = $cookies.get('Ecom-name');
+            if (userName && !vm.user.login) {
+                // $location.path('/path1/path2');
+                // $window.location.href = '/';
+                var userName = $cookies.get('Ecom-name');
+                vm.user.login = true;
+                vm.user.name = userName;
+                var fullTime = $cookies.get('Ecom-lastVisit');
+                vm.user.lastVisit = fullTime.substring(0, fullTime.indexOf('G'));
+                if (pre && pre.loadedTemplateUrl == "views/home.html")
+                    cookiesHandler.setNewLoginDate();
+            }
+
+        })
+
+
 
 }]);
 
@@ -54,10 +55,12 @@ app.config( ['$routeProvider', '$locationProvider', function($routeProvider, $lo
     // });
     $routeProvider
         .when("/home", {
-            templateUrl : "views/home.html"
+            templateUrl : "views/home.html",
+            // controller: "mainController"
         })
         .when("/about", {
-            templateUrl : "views/about.html"
+            templateUrl : "views/about.html",
+            // controller: "mainController"
         })
         .when("/store", {
             templateUrl : "views/store.html"
@@ -77,7 +80,9 @@ app.config( ['$routeProvider', '$locationProvider', function($routeProvider, $lo
         // .otherwise({
         //     template : "<h1>None</h1><p>Nothing has been selected</p>"
         // });
-        .otherwise({redirectTo: '/'});
+        .otherwise({redirect: '/',
+            controller: "mainController"
+        });
 
 }]);
 

@@ -16,6 +16,8 @@
     <script type="text/javascript" src="./app/controllers/authorsController.js"></script>
     <script type="text/javascript" src="app/models/AuthorModel.js"></script>
     <script src="app/controllers/loginController.js"></script>
+    <script src="app/services/cookiesHandler.js"></script>
+
     <!--<link rel="stylesheet" href="assets/css/mainStyle.css">-->
     <base href="./">
     <!--<base href="http://localhost:63342/WebApp/Client/" />-->
@@ -28,25 +30,26 @@
     <div ng-controller="mainController as mainCtrl">
         <div id="toolbar">
             <ul>
-                <li><a ng-href="#/home">Home</a></li>
-                <li><a ng-href="#">About</a></li>
+                <li><a ng-href="#/home" target="_self" ng-click="mainCtrl.checkRefresh()">Home</a></li>
+                <li><a ng-href="#/about">About</a></li>
                 <li><a ng-href="#/store">Store</a></li>
-                <li ng-show="!user.login"><a ng-href="#/register">Register</a></li>
-                <li ng-show="!user.login"><a ng-href="#/login">Login</a></li>
+                <li ng-show="!mainCtrl.user.login"><a ng-href="#/register">Register</a></li>
+                <li ng-show="!mainCtrl.user.login"><a ng-href="#/login">Login</a></li>
                 <li><a ng-href="#/authors">Authors</a></li>
                 <li class="right"><a ng-href="#/cart">Cart</a></li>
-                <li ng-show="user.login">Hello  {{user.name}}, Last visit: {{user.lastVisit}}</li>
-                <li ng-show="user.login"><button ng-click="logout()">Logout</button></li>
+                <li ng-show="mainCtrl.user.login">Hello  {{mainCtrl.user.name}}, Last visit: {{mainCtrl.user.lastVisit}}</li>
+                <li ng-show="mainCtrl.user.login"><button ng-click="mainCtrl.logout()">Logout</button></li>
+                <li ng-click="mainCtrl.search()">Search Product <input type="text"></li>
             </ul>
-
-            <!--{{testVar}}-->
         </div>
     </div>
 </nav>
 
     <div id="contentPage">
         <!--<h1>Route pages content:</h1>-->
-        <ng-view></ng-view>
+        <ng-view>
+            blabalbalbal
+        </ng-view>
     </div>
 
     <br>

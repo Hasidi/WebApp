@@ -4,9 +4,9 @@
 angular.module('myApp')
     .service('cookiesHandler', cookiesHandler);
 
-// restService.$inject = ['$http'];
+cookiesHandler.$inject = ['$cookies'];
 
-function cookiesHandler ($http) {
+function cookiesHandler ($cookies) {
 
     this.addNewCookies = function (user) {
         var expireDate = new Date();
@@ -24,6 +24,12 @@ function cookiesHandler ($http) {
         var today = new Date();
         $cookies.put('Ecom-lastVisit', today, {expires: expireDate});
         return today;
+    };
+
+    this.remove = function () {
+        $cookies.remove('Ecom-name');
+        $cookies.remove('Ecom-id');
+        $cookies.remove('Ecom-lastVisit');
     };
 
 

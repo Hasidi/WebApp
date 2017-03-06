@@ -11,10 +11,8 @@ app.controller('registerController', function(UserModel, restService, $rootScope
 
 
     vm1.register = function () {
-        // vm1.user = new UserModel(vm1.user;
-        users.push(vm1.user);
 
-        // var reqUrl = "http://localhost:4000/insertAuthors";
+        users.push(vm1.user);
         var reqUrl = $rootScope.path + "insertClients";
         if (vm1.user.isAdmin == "")
             vm1.user.isAdmin = false;

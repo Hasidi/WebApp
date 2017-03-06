@@ -3,7 +3,7 @@
  */
 
 angular.module("myApp")
-    .controller('loginController', function(UserModel, restService, $rootScope, $cookies, $location, cookiesHandler){
+    .controller('loginController', function(UserModel, restService, $rootScope, $cookies, $location, $window, cookiesHandler){
         var vm = this;
         vm.user = new UserModel();
         vm.loginState = false;
@@ -20,15 +20,10 @@ angular.module("myApp")
                     vm.user = ans;
                     var cookieId = $cookies.get('Ecom-id');
                     if (!cookieId) {
-                        // var expireDate = new Date();
-                        // expireDate.setDate(expireDate.getDate() + 1);
-                        // $cookies.put('Ecom-id', vm.user.Id, {expires : expireDate});
-                        // $cookies.put('Ecom-name', vm.user.FirstName, {expires : expireDate});
-                        // var today = new Date();
-                        // $cookies.put('Ecom-lastVisit', today, {expires : expireDate});
-                        cookiesHandler.addNewCookies(user);
+                        cookiesHandler.addNewCookies(vm.user);
                     }
-                    $location.path('/home');
+                    // $location.path('/home');
+                    $window.location.href = '#/home';
                 }
                 else
                 {
