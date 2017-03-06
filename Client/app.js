@@ -3,14 +3,38 @@
  */
 var app = angular.module("myApp",['ngRoute', 'ngCookies']);
 
-app.controller("mainController", [ '$rootScope','$scope', '$cookies', function($rootScope, $scope, $cookies) {
+app.controller("mainController", [ '$rootScope','$scope', '$cookies', function($rootScope, $scope, $cookies, cookiesHandler) {
+
+    var date = new Date();
+    var x = date.getDay();
+    var y = date.getDate();
+
     $rootScope.path = "http://localhost:4000/";
     $scope.testVar = 4;
-    // $scope.user = new UserModel();
-    $scope.logedIn = false;
-    var cookieId = $cookies.get('Ecom-app');
-    if (cookieId)
-        $scope.logedIn = true;
+    $scope.user = {login: false, name: "", lastVisit: ""};
+    var userName = $cookies.get('Ecom-name');
+    if (userName) {
+        $scope.user.login = true;
+        $scope.user.name = userName;
+        var fullTime = $cookies.get('Ecom-lastVisit');
+        $scope.user.lastVisit = fullTime.substring(0, fullTime.indexOf('G'));
+        // var today = new Date();
+        // var expireDate = new Date();
+        // expireDate.setDate(expireDate.getDate() + 1);
+        // $cookies.put('Ecom-lastVisit', today, {expires : expireDate});
+
+        var today = cookiesHandler.setNewLoginDate();
+
+
+    }
+
+    $scope.logout = function () {
+        $cookies.remove('Ecom-name');
+        $cookies.remove('Ecom-id');
+        $cookies.remove('Ecom-lastVisit');
+        $scope.user = {login: false, name: "", lastVisit: ""};
+        alert("You have looged out");
+    }
 
 }]);
 
@@ -29,11 +53,14 @@ app.config( ['$routeProvider', '$locationProvider', function($routeProvider, $lo
     //     requireBase: false
     // });
     $routeProvider
+        .when("/home", {
+            templateUrl : "views/home.html"
+        })
         .when("/about", {
-            templateUrl : "/views/about.html"
+            templateUrl : "views/about.html"
         })
         .when("/store", {
-            templateUrl : "/views/store.html"
+            templateUrl : "views/store.html"
         })
         .when("/register", {
             templateUrl : "views/register.html",
@@ -55,3 +82,9 @@ app.config( ['$routeProvider', '$locationProvider', function($routeProvider, $lo
 }]);
 
 
+function GetDate(date) {
+    var day = date.getDate();
+    var month = date.getMonth();
+    var year = date.getYear();
+    return day + "." + month + "." + year;
+}

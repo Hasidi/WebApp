@@ -50,10 +50,12 @@ app.post('/insertClients', function (req, res) {
 
     DButilsAzure.Insert(connection, "Customer", objs, function (insertStatus) {
         if(insertStatus){
-            res.send(true);
+            res.send({state:true, message: ""});
             console.log("success to insert new token thing");
         }
         else {
+            res.send({state:false, message: "User already exists"});
+
             console.log("Failed to insert new token thing");
         }
     });
@@ -76,14 +78,14 @@ app.post('/insertAuthors', function (req, res) {
 app.get('/getClient', function (req, res) {
     var userId = req.param('Id');
     var userPass = req.param('pass');
-    var found = false;
+    var found = {};
     DButilsAzure.Get(connection, "Customer", "*", function(result) {
         var objs = JSON.parse(result);
         for (index in objs) {
             var id = objs[index].Id;
             var pass = objs[index].Password;
             if (id == userId && pass == userPass) {
-                found = true;
+                found = objs[index];
                 break;
             }
         }

@@ -28,17 +28,18 @@
     <div ng-controller="mainController as mainCtrl">
         <div id="toolbar">
             <ul>
-                <li><a ng-href="#">Home</a></li>
+                <li><a ng-href="#/home">Home</a></li>
                 <li><a ng-href="#">About</a></li>
-                <li><a ng-href="#store">Store</a></li>
-                <li ng-show="!logedIn"><a ng-href="#/register">Register</a></li>
-                <li ng-show="!logedIn"><a ng-href="#/login">Login</a></li>
+                <li><a ng-href="#/store">Store</a></li>
+                <li ng-show="!user.login"><a ng-href="#/register">Register</a></li>
+                <li ng-show="!user.login"><a ng-href="#/login">Login</a></li>
                 <li><a ng-href="#/authors">Authors</a></li>
-                <li class="right"><a ng-href="#cart">Cart</a></li>
-
+                <li class="right"><a ng-href="#/cart">Cart</a></li>
+                <li ng-show="user.login">Hello  {{user.name}}, Last visit: {{user.lastVisit}}</li>
+                <li ng-show="user.login"><button ng-click="logout()">Logout</button></li>
             </ul>
 
-            {{testVar}}
+            <!--{{testVar}}-->
         </div>
     </div>
 </nav>
