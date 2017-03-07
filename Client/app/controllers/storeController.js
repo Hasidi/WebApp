@@ -2,7 +2,7 @@
  * Created by Hasidi on 06/03/2017.
  */
 angular.module("myApp")
-    .controller('storeController', function (ProductModel, restService, $rootScope) {
+    .controller('storeController', function (ProductModel, restService, $rootScope, cartFactory) {
         var vm = this;
         vm.products = [];
         vm.fieldToOrderBy = "Id";
@@ -17,5 +17,14 @@ angular.module("myApp")
                     vm.products.push(new ProductModel(product));
                 })
             });
+        }
+
+        vm.addCart = function (product) {
+            cartFactory.addToCart(product);
+        }
+
+        vm.removeCart = function (product) {
+            cartFactory.removeFromCart(product);
+
         }
     });

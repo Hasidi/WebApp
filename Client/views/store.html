@@ -26,6 +26,8 @@
             <td>{{product.UnitPrice}}</td>
             <td>{{product.Package}}</td>
             <td>{{product.IsDiscontinued}}</td>
+            <td><button ng-click="storeCtrl.addCart(product)">Add Cart</button> </td>
+            <td><button ng-click="storeCtrl.removeCart(product)">Remove Cart</button> </td>
 
         </tr>
     </table>

@@ -1,24 +1,32 @@
 /**
  * Created by Hasidi on 25/01/2017.
  */
-var app = angular.module("myApp",['ngRoute', 'ngCookies']);
+var app = angular.module("myApp",['ngRoute', 'ngCookies', 'LocalStorageModule']);
 
 app.controller("mainController", [ '$rootScope', '$cookies', '$route', '$window','cookiesHandler',
     function($rootScope, $cookies, $route, $window, cookiesHandler) {
         var vm = this;
         $rootScope.path = "http://localhost:4000/";
+
+        // if(localStorageService.isSupported) {
+        //     var x = 100;
+        //     var storageType = localStorageService.getStorageType();
+        //     $rootScope.cart = localStorageService.get('cart');
+        //     if (!$rootScope.cart)
+        //         $rootScope.cart = [];
+        // }
+
         vm.user = {login: false, name: "", lastVisit: ""};
         $window.location.href = '#/home';
 
 
+        //-------------------------------------------------------------------------------------------------------
         vm.logout = function () {
             cookiesHandler.remove();
             vm.user = {login: false, name: "", lastVisit: ""};
             alert("You have looged out");
         }
-
-
-
+        //-------------------------------------------------------------------------------------------------------
         $rootScope.$on("$routeChangeSuccess", function ( e, current, pre) {
             var userName = $cookies.get('Ecom-name');
             if (userName && !vm.user.login) {
@@ -34,25 +42,18 @@ app.controller("mainController", [ '$rootScope', '$cookies', '$route', '$window'
             }
 
         })
-
-
+        //-------------------------------------------------------------------------------------------------------
 
 }]);
 
 
-// https://docs.angularjs.org/guide/migration#commit-aa077e8
 app.config(['$locationProvider', function($locationProvider) {
     $locationProvider.hashPrefix('');
     // $locationProvider.html5Mode(true);
 
 }]);
 
-app.config( ['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-    // $locationProvider.html5Mode(true);
-    // $locationProvider.html5Mode({
-    //     enabled: true,
-    //     requireBase: false
-    // });
+app.config( ['$routeProvider', function($routeProvider) {
     $routeProvider
         .when("/home", {
             templateUrl : "views/home.html",
@@ -73,18 +74,12 @@ app.config( ['$routeProvider', '$locationProvider', function($routeProvider, $lo
             templateUrl : "views/login.html",
             controller : "loginController"
         })
-        .when("/authors", {
-            templateUrl : "views/authors.html",
-            controller : "authorsController"
-        })
-        // .otherwise({
-        //     template : "<h1>None</h1><p>Nothing has been selected</p>"
-        // });
         .otherwise({redirect: '/',
             controller: "mainController"
         });
 
 }]);
+
 
 
 function GetDate(date) {
@@ -93,3 +88,12 @@ function GetDate(date) {
     var year = date.getYear();
     return day + "." + month + "." + year;
 }
+
+app.config(function (localStorageServiceProvider) {
+    localStorageServiceProvider
+        .setPrefix('myApp')
+        // .setStorageType('sessionStorage')
+        .setNotify(true, true)
+        .setDefaultToCookie(false);
+
+});
