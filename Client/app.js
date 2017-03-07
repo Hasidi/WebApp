@@ -1,44 +1,34 @@
 /**
  * Created by Hasidi on 25/01/2017.
  */
-var app = angular.module("myApp",['ngRoute', 'ngCookies', 'LocalStorageModule']);
+var app = angular.module("myApp",['ngRoute', 'LocalStorageModule']);
 
-app.controller("mainController", [ '$rootScope', '$cookies', '$route', '$window','cookiesHandler',
-    function($rootScope, $cookies, $route, $window, cookiesHandler) {
+app.constant('DAYS_TO_COOKIE', 3);
+app.controller("mainController", [ '$rootScope', '$route', '$window', 'cookiesService',
+    function($rootScope, $route, $window, cookiesService) {
         var vm = this;
         $rootScope.path = "http://localhost:4000/";
-
-        // if(localStorageService.isSupported) {
-        //     var x = 100;
-        //     var storageType = localStorageService.getStorageType();
-        //     $rootScope.cart = localStorageService.get('cart');
-        //     if (!$rootScope.cart)
-        //         $rootScope.cart = [];
-        // }
-
         vm.user = {login: false, name: "", lastVisit: ""};
         $window.location.href = '#/home';
 
 
         //-------------------------------------------------------------------------------------------------------
         vm.logout = function () {
-            cookiesHandler.remove();
+            cookiesService.remove();
             vm.user = {login: false, name: "", lastVisit: ""};
             alert("You have looged out");
         }
         //-------------------------------------------------------------------------------------------------------
         $rootScope.$on("$routeChangeSuccess", function ( e, current, pre) {
-            var userName = $cookies.get('Ecom-name');
-            if (userName && !vm.user.login) {
-                // $location.path('/path1/path2');
-                // $window.location.href = '/';
-                var userName = $cookies.get('Ecom-name');
+            var userId = cookiesService.getCookie('user-id');
+            if (userId && !vm.user.login) {
+                var userName = cookiesService.getCookie('user-name');
                 vm.user.login = true;
                 vm.user.name = userName;
-                var fullTime = $cookies.get('Ecom-lastVisit');
-                vm.user.lastVisit = fullTime.substring(0, fullTime.indexOf('G'));
+                var fullTime = cookiesService.getCookie('user-lastVisit');
+                vm.user.lastVisit = decodeURIComponent(fullTime);
                 if (pre && pre.loadedTemplateUrl == "views/home.html")
-                    cookiesHandler.setNewLoginDate();
+                    cookiesService.setNewLoginDate();
             }
 
         })
@@ -82,12 +72,12 @@ app.config( ['$routeProvider', function($routeProvider) {
 
 
 
-function GetDate(date) {
-    var day = date.getDate();
-    var month = date.getMonth();
-    var year = date.getYear();
-    return day + "." + month + "." + year;
-}
+// function GetDate(date) {
+//     var day = date.getDate();
+//     var month = date.getMonth();
+//     var year = date.getYear();
+//     return day + "." + month + "." + year;
+// }
 
 app.config(function (localStorageServiceProvider) {
     localStorageServiceProvider

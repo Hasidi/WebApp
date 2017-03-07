@@ -3,7 +3,7 @@
  */
 
 angular.module("myApp")
-    .controller('loginController', function(UserModel, restService, $rootScope, $cookies, $location, $window, cookiesHandler){
+    .controller('loginController', function(UserModel, restService, $rootScope, $cookies, $location, $window, cookiesService){
         var vm = this;
         vm.user = new UserModel();
         vm.loginState = false;
@@ -18,9 +18,9 @@ angular.module("myApp")
                     vm.loginState = true;
                     vm.message = "Login Succeeded";
                     vm.user = ans;
-                    var cookieId = $cookies.get('Ecom-id');
+                    var cookieId = cookiesService.getCookie('user-id');
                     if (!cookieId) {
-                        cookiesHandler.addNewCookies(vm.user);
+                        cookiesService.addNewCookies(vm.user);
                     }
                     // $location.path('/home');
                     $window.location.href = '#/home';
