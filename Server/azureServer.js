@@ -23,6 +23,8 @@ var config = {
     userName: 'qweasdzxc',
     password: '123QWEasd',
     server: 'ip2017server.database.windows.net',
+    requestTimeout: 300000,
+
     // When you connect to Azure SQL Database, you need these next options.
     options: {encrypt: true, database: 'Shop'}
 };
@@ -94,10 +96,10 @@ app.get('/getClient', function (req, res) {
     });
 });
 //---------------------------------------------------------------------------------------------------------------------------------
-app.get('/getAuthors', function (req, res) {
-    DButilsAzure.Get(connection, "authors", "*", function(result) {
+app.get('/getProducts', function (req, res) {
+    DButilsAzure.Get(connection, "Product", "*", function(result) {
         res.send(result);
-        console.log("success getting Authors");
+        console.log("success getting Products");
     });
 });
 //---------------------------------------------------------------------------------------------------------------------------------
