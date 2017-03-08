@@ -1,10 +1,37 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Cart</title>
-</head>
-<body>
 
-</body>
-</html>
+<h1>Cart</h1>
+
+<div ng-controller="cartController as cartCtrl">
+
+    <table>
+        <thead>
+        <tr>
+            <th><a href="" ng-click="cartCtrl.fieldToOrderBy='ProductName'; cartCtrl.reverseSort = !cartCtrl.reverseSort">Product Name</a></th>
+            <th><a href="" ng-click="cartCtrl.fieldToOrderBy='Quantity'; cartCtrl.reverseSort = !cartCtrl.reverseSort">Quantity</a></th>
+            <th><a href="" ng-click="cartCtrl.fieldToOrderBy='IsDiscontinued'; cartCtrl.reverseSort = !cartCtrl.reverseSort">IsDiscontinued</a></th>
+            <th><a href="" ng-click="cartCtrl.fieldToOrderBy='UnitPrice'; cartCtrl.reverseSort = !cartCtrl.reverseSort">UnitPrice</a></th>
+
+
+        </tr>
+        </thead>
+        <tr ng-repeat="product in cartCtrl.cart | filter : cartCtrl.filterBy">
+            <td>{{product.theItem.ProductName}}</td>
+            <td>{{product.quantity}}</td>
+            <td>{{product.theItem.IsDiscontinued}}</td>
+            <td>{{product.theItem.UnitPrice | currency: "USD$"}}</td>
+            <td><button ng-click="cartCtrl.removeFromCart(product)">Remove from cart</button> </td>
+        </tr>
+        <tr>
+            <td><b>Total</b></td>
+            <td ng-show="cartCtrl.cart.length > 0"><b>{{cartCtrl.totalItems}}</b></td>
+            <td></td>
+            <td ng-show="cartCtrl.cart.length > 0"><b>{{cartCtrl.totalPrice | currency: "USD$"}}</b></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td ng-show="cartCtrl.cart.length > 0"><b><button>Checkout</button></b></td>
+        </tr>
+    </table>
+</div>

@@ -23,8 +23,5 @@ angular.module("myApp")
             cartFactory.addToCart(product);
         }
 
-        vm.removeCart = function (product) {
-            cartFactory.removeFromCart(product);
 
-        }
     });

@@ -23,11 +23,11 @@
             <td>{{product.Id}}</td>
             <td>{{product.ProductName}}</td>
             <td>{{product.SupplierId}}</td>
-            <td>{{product.UnitPrice}}</td>
+            <td>{{product.UnitPrice | currency: "USD$"}}</td>
             <td>{{product.Package}}</td>
             <td>{{product.IsDiscontinued}}</td>
             <td><button ng-click="storeCtrl.addCart(product)">Add Cart</button> </td>
-            <td><button ng-click="storeCtrl.removeCart(product)">Remove Cart</button> </td>
+            <!--<td><button ng-click="storeCtrl.removeCart(product)">Remove Cart</button> </td>-->
 
         </tr>
     </table>
