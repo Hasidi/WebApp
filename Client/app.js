@@ -4,19 +4,22 @@
 var app = angular.module("myApp",['ngRoute', 'LocalStorageModule']);
 app.constant('DAYS_TO_COOKIE' , 3);
 
-app.controller("mainController", [ '$rootScope', '$route', '$window', 'cookiesService',
-    function($rootScope, $route, $window, cookiesService) {
+app.controller("mainController", [ '$rootScope', '$route', '$window', 'cookiesService', 'localStorageService', 'cartFactory',
+    function($rootScope, $route, $window, cookiesService, localStorageService, cartFactory) {
         var vm = this;
         $rootScope.path = "http://localhost:4000/";
         vm.user = {login: false, name: "", lastVisit: ""};
         $window.location.href = '#/home';
-
+        $rootScope.USER = vm.user;
 
         //-------------------------------------------------------------------------------------------------------
         vm.logout = function () {
             cookiesService.removeAll();
             vm.user = {login: false, name: "", lastVisit: ""};
-            localStorageService.remove('cart');
+            cartFactory.deleteCart();
+            $window.location.href = '#/home';
+            $rootScope.USER = vm.user;
+
             alert("You have looged out");
         }
         //-------------------------------------------------------------------------------------------------------
@@ -28,6 +31,8 @@ app.controller("mainController", [ '$rootScope', '$route', '$window', 'cookiesSe
                 vm.user.name = userName;
                 var fullTime = cookiesService.getCookie('user-lastVisit');
                 vm.user.lastVisit = decodeURIComponent(fullTime);
+                $rootScope.USER = vm.user;
+
                 if (pre && pre.loadedTemplateUrl == "views/home.html")
                     cookiesService.setNewLoginDate();
             }

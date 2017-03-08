@@ -7,15 +7,7 @@ angular.module('myApp')
 function cartFactory(localStorageService, $rootScope) {
 
     var Cart = [];
-    if(localStorageService.isSupported) {
-        // var storageType = localStorageService.getStorageType();
-        var Cart = localStorageService.get('cart');
-        if (!Cart) {
-            Cart = [];
-            localStorageService.set('cart', Cart);
-        }
 
-    }
 
     Cart.addToCart = function (item) {
         Cart = localStorageService.get('cart');
@@ -49,6 +41,26 @@ function cartFactory(localStorageService, $rootScope) {
     Cart.getCart = function() {
         return Cart;
     }
+
+    Cart.initialize = function () {
+        if(localStorageService.isSupported) {
+            // var storageType = localStorageService.getStorageType();
+            var Cart = localStorageService.get('cart');
+            if (!Cart) {
+                Cart = [];
+                localStorageService.set('cart', Cart);
+            }
+
+        }
+    }
+
+    Cart.deleteCart = function () {
+        Cart = [];
+        localStorageService.remove('cart');
+
+    }
+
+    Cart.initialize();
 
 
     return Cart;

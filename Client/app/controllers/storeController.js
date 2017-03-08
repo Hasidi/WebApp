@@ -9,6 +9,8 @@ angular.module("myApp")
         vm.reverseSort = false;
         vm.filterBy = "";
 
+        cartFactory.initialize();
+
         vm.getAllProducts = function () {
             var reqUrl = $rootScope.path + "getProducts";
             var ans = restService.Get(reqUrl, function (response) {
