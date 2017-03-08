@@ -3,7 +3,7 @@
  */
 
 angular.module("myApp")
-    .controller('loginController', function(UserModel, restService, $rootScope, $cookies, $location, $window, cookiesService){
+    .controller('loginController', function(UserModel, restService, $rootScope, $location, $window, cookiesService){
         var vm = this;
         vm.user = new UserModel();
         vm.loginState = false;
@@ -18,6 +18,7 @@ angular.module("myApp")
                     vm.loginState = true;
                     vm.message = "Login Succeeded";
                     vm.user = ans;
+                    $rootScope.userId = vm.user.userId;  // not good enough - models depends each other
                     var cookieId = cookiesService.getCookie('user-id');
                     if (!cookieId) {
                         cookiesService.addNewCookies(vm.user);

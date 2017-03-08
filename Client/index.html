@@ -39,7 +39,7 @@
                 <li><a ng-href="#/store">Store</a></li>
                 <li ng-show="!mainCtrl.user.login"><a ng-href="#/register">Register</a></li>
                 <li ng-show="!mainCtrl.user.login"><a ng-href="#/login">Login</a></li>
-                <li class="right"><a ng-href="#/cart">Cart</a></li>
+                <li ng-show="mainCtrl.user.login" class="right"><a ng-href="#/cart">Cart</a></li>
                 <li ng-show="mainCtrl.user.login">Hello  {{mainCtrl.user.name}}, Last visit: {{mainCtrl.user.lastVisit}}</li>
                 <li ng-show="mainCtrl.user.login"><button ng-click="mainCtrl.logout()">Logout</button></li>
                 <li ng-click="mainCtrl.search()">Search Product <input type="text"></li>

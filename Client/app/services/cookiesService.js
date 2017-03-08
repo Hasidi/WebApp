@@ -27,7 +27,7 @@ function cookiesService (localStorageService, DAYS_TO_COOKIE) {
         return today;
     };
 
-    this.remove = function () {
+    this.removeAll = function () {
         localStorageService.cookie.remove('user-id');
         localStorageService.cookie.remove('user-name');
         localStorageService.cookie.remove('user-lastVisit');

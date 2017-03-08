@@ -2,8 +2,8 @@
  * Created by Hasidi on 25/01/2017.
  */
 var app = angular.module("myApp",['ngRoute', 'LocalStorageModule']);
+app.constant('DAYS_TO_COOKIE' , 3);
 
-app.constant('DAYS_TO_COOKIE', 3);
 app.controller("mainController", [ '$rootScope', '$route', '$window', 'cookiesService',
     function($rootScope, $route, $window, cookiesService) {
         var vm = this;
@@ -14,14 +14,15 @@ app.controller("mainController", [ '$rootScope', '$route', '$window', 'cookiesSe
 
         //-------------------------------------------------------------------------------------------------------
         vm.logout = function () {
-            cookiesService.remove();
+            cookiesService.removeAll();
             vm.user = {login: false, name: "", lastVisit: ""};
+            localStorageService.remove('cart');
             alert("You have looged out");
         }
         //-------------------------------------------------------------------------------------------------------
         $rootScope.$on("$routeChangeSuccess", function ( e, current, pre) {
-            var userId = cookiesService.getCookie('user-id');
-            if (userId && !vm.user.login) {
+            var logedIn = cookiesService.getCookie('user-id');
+            if (logedIn && !vm.user.login) {
                 var userName = cookiesService.getCookie('user-name');
                 vm.user.login = true;
                 vm.user.name = userName;
@@ -30,6 +31,7 @@ app.controller("mainController", [ '$rootScope', '$route', '$window', 'cookiesSe
                 if (pre && pre.loadedTemplateUrl == "views/home.html")
                     cookiesService.setNewLoginDate();
             }
+
 
         })
         //-------------------------------------------------------------------------------------------------------
@@ -63,6 +65,9 @@ app.config( ['$routeProvider', function($routeProvider) {
         .when("/login", {
             templateUrl : "views/login.html",
             controller : "loginController"
+        })
+        .when("/cart", {
+            templateUrl : "views/cart.html"
         })
         .otherwise({redirect: '/',
             controller: "mainController"
