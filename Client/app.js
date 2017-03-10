@@ -4,19 +4,20 @@
 var app = angular.module("myApp",['ngRoute', 'LocalStorageModule']);
 app.constant('DAYS_TO_COOKIE' , 3);
 
-app.controller("mainController", [ '$rootScope', '$route', '$window', 'cookiesService', 'localStorageService', 'cartFactory',
-    function($rootScope, $route, $window, cookiesService, localStorageService, cartFactory) {
+app.controller("mainController", [ '$rootScope', '$route', '$window', 'cookiesService', 'localStorageService', 'cartService',
+    function($rootScope, $route, $window, cookiesService, localStorageService, cartService) {
         var vm = this;
         $rootScope.path = "http://localhost:4000/";
         vm.user = {login: false, name: "", lastVisit: ""};
         $window.location.href = '#/home';
         $rootScope.USER = vm.user;
+        // $rootScope.cart = new cartFactory();
 
         //-------------------------------------------------------------------------------------------------------
         vm.logout = function () {
             cookiesService.removeAll();
             vm.user = {login: false, name: "", lastVisit: ""};
-            cartFactory.deleteCart();
+            cartService.deleteCart();
             $window.location.href = '#/home';
             $rootScope.USER = vm.user;
 

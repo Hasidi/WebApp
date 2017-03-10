@@ -2,14 +2,15 @@
  * Created by Hasidi on 06/03/2017.
  */
 angular.module("myApp")
-    .controller('storeController', function (ProductModel, restService, $rootScope, cartFactory) {
+    .controller('storeController', function (ProductModel, restService, $rootScope, cartService) {
         var vm = this;
         vm.products = [];
         vm.fieldToOrderBy = "Id";
         vm.reverseSort = false;
         vm.filterBy = "";
+        // vm.cart = new cartFactory();
 
-        cartFactory.initialize();
+        // cartFactory.initialize();
 
         vm.getAllProducts = function () {
             var reqUrl = $rootScope.path + "getProducts";
@@ -22,7 +23,7 @@ angular.module("myApp")
         }
 
         vm.addCart = function (product) {
-            cartFactory.addToCart(product);
+            cartService.addToCart(product);
         }
 
 
